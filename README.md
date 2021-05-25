@@ -21,7 +21,7 @@ To set up Postman, you will need to create a Tetration Environment with the foll
 
 ## MANUAL WALKTHROUGH:
 
->The pre-request script was recently updated to set the appropriate headers without having to pre-set them in the request.  This makes > usage much easier.  To leverage this method, use "pre-request.js" either as a pre-request script in an individual request, or as a pre-request script for an entire collection.  You can also apply the pre-request script to a Folder, so that it doesn't have to be individualy applied to multiple requests.
+>The pre-request script was recently updated to set the appropriate headers without having to pre-set them in the request.  This makes > usage much easier.  To leverage this method, use "pre-request.js" either as a pre-request script in an individual request, or as a pre-request script for an entire folder/collection.
 
 Create a new request.  As an example, try an inventory search which is a Post request to the Tetration API and will use all both generated digest headers.  The URL for the request will be: 'https://{{URL}}/openapi/v1/inventory/search'.  The Method is 'POST'.  Click on the 'Authorization' tab.  Authorization should be set to 'No Auth' since we will be adding custom code for Authorization.
  
