@@ -1,0 +1,507 @@
+{
+	"info": {
+		"_postman_id": "92c9f486-1d6c-4814-8644-842a92a88406",
+		"name": "Cisco Secure Workload 3.5 - OpenAPI",
+		"description": "OpenAPI provides a REST API for Secure Workload features.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Applications and Security Policies",
+			"item": [
+				{
+					"name": "Applications",
+					"item": [
+						{
+							"name": "List Applications",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{URL}}/openapi/v1/applications",
+									"protocol": "https",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"openapi",
+										"v1",
+										"applications"
+									]
+								},
+								"description": "This endpoint will return an array of applications that are visible to the users.\n\nParameters: None\n\nResponse object: Returns an array of application objects."
+							},
+							"response": []
+						},
+						{
+							"name": "List Applications Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"filter\": {\n        \"type\": \"and\",\n        \"filters\": [\n            {\n                \"type\": \"eq\",\n                \"field\": \"excluded\",\n                \"value\": false\n            },\n            {\n                \"type\": \"lt\",\n                \"field\": \"port\",\n                \"value\": 1000\n            }\n        ]\n    },\n    \"version\": 5,\n    \"metrics\": [\n        \"byte_count\",\n        \"packet_count\"\n    ],\n    \"limit\": 1000\n}"
+								},
+								"url": {
+									"raw": "https://{{URL}}/openapi/v1/conversations/6086b98f497d4f07257a13e9",
+									"protocol": "https",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"openapi",
+										"v1",
+										"conversations",
+										"6086b98f497d4f07257a13e9"
+									]
+								},
+								"description": "This endpoint will return an array of applications that are visible to the users.\n\nParameters: None\n\nResponse object: Returns an array of application objects."
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve a single application",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{URL}}/openapi/v1/applications/:application_id",
+									"protocol": "https",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"openapi",
+										"v1",
+										"applications",
+										":application_id"
+									],
+									"variable": [
+										{
+											"key": "application_id",
+											"value": "ex: 5e279bff755f023867a7fbe2"
+										}
+									]
+								},
+								"description": "This endpoint will return the requested application as a single JSON object.\n\nParameters: The request URL contains the following parameters:\n\n| Name           | Type   | Description                                | \n|----------------|--------|--------------------------------------------| \n| application_id | string | The unique identifier for the application. | \n\nResponse object: Returns the application object for the specified ID.\n\n**Sample python code**\n```\napplication_id = '5d02b493755f0237a3d6e078'\nrestclient.get('/applications/%s' % application_id)\n```"
+							},
+							"response": []
+						},
+						{
+							"name": "Create an application",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"app_scope_id\": \"5ff73455497d4f1bfc2afda9\",\n    \"name\": \"My Application\",\n    \"absolute_policies\": [\n        {\n            \"provider_filter_id\": \"5ff73455497d4f1bfc2afda9\",\n            \"consumer_filter_id\": \"5ff73455497d4f1bfc2afda9\",\n            \"action\": \"ALLOW\",\n            \"l4_params\": [\n                {\n                    \"proto\": 6,\n                    \"port\": [\n                        80,\n                        80\n                    ]\n                }\n            ]\n        }\n    ],\n    \"catch_all_action\": \"ALLOW\"\n}"
+								},
+								"url": {
+									"raw": "https://{{URL}}/openapi/v1/applications",
+									"protocol": "https",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"openapi",
+										"v1",
+										"applications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create an application Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"app_scope_id\": \"5ff73455497d4f1bfc2afda9\",\n    \"name\": \"My Application\",\n    \"absolute_policies\": [\n        {\n            \"provider_filter_id\": \"5ff73455497d4f1bfc2afda9\",\n            \"consumer_filter_id\": \"5ff73455497d4f1bfc2afda9\",\n            \"action\": \"ALLOW\",\n            \"l4_params\": [\n                {\n                    \"proto\": 6,\n                    \"port\": [\n                        80,\n                        80\n                    ]\n                }\n            ]\n        }\n    ],\n    \"catch_all_action\": \"ALLOW\"\n}"
+								},
+								"url": {
+									"raw": "https://{{URL}}/openapi/v1/applications",
+									"protocol": "https",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"openapi",
+										"v1",
+										"applications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete an Application",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{URL}}/openapi/v1/applications/:application_id",
+									"protocol": "https",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"openapi",
+										"v1",
+										"applications",
+										":application_id"
+									],
+									"variable": [
+										{
+											"key": "application_id",
+											"value": "ex: 60380a6a755f0237b1f2b534"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update an application",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n \"name\": \"sx2 Name\",\n \"description\": \"Updated Description\",\n \"primary\": \"true\"\n}"
+								},
+								"url": {
+									"raw": "https://{{URL}}/openapi/v1/applications/:application_id",
+									"protocol": "https",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"openapi",
+										"v1",
+										"applications",
+										":application_id"
+									],
+									"variable": [
+										{
+											"key": "application_id",
+											"value": "ex: 606d1114755f0223c1a0ef22"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve application details",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{URL}}/openapi/v1/applications/:application_id/details",
+									"protocol": "https",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"openapi",
+										"v1",
+										"applications",
+										":application_id",
+										"details"
+									],
+									"variable": [
+										{
+											"key": "application_id",
+											"value": "ex: 5fd21268497d4f6de7e48dd9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "List application Versions",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{URL}}/openapi/v1/applications/:application_id/versions",
+									"protocol": "https",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"openapi",
+										"v1",
+										"applications",
+										":application_id",
+										"versions"
+									],
+									"variable": [
+										{
+											"key": "application_id",
+											"value": "ex: 5fd21268497d4f6de7e48dd9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete an application version",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "https://{{URL}}/openapi/v1/applications/:application_id/versions/:version",
+									"protocol": "https",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"openapi",
+										"v1",
+										"applications",
+										":application_id",
+										"versions",
+										":version"
+									],
+									"variable": [
+										{
+											"key": "application_id",
+											"value": "ex: 6052b229755f0241c6f2b91c"
+										},
+										{
+											"key": "version",
+											"value": "ex: v5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Application workspaces are the containers for defining, analyzing and enforcing policies for a particular application. For more information about how they work see the Application Workspaces documentation. This set of APIs requires the app_policy_management capability associated with the API key.\n\nThe application JSON object is returned as a single object or an array of objects depending on the API endpoint. The object’s attributes are described below:\n\n| Attribute            | Type    | Description                                                                                                                                                             | \n|----------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------| \n| id                   | string  | A unique identifier for the application.                                                                                                                                | \n| name                 | string  | User specified name of the application.                                                                                                                                 | \n| description          | string  | User specified description of the application.                                                                                                                          | \n| app_scope_id         | string  | ID of the scope assigned to the application.                                                                                                                            | \n| author               | string  | First and last name of the user who created the application.                                                                                                            | \n| primary              | boolean | Indicates if the application is primary for its scope.                                                                                                                  | \n| alternate_query_mode | boolean | Indicates if ‘dynamic mode’ is used for the application. In the dynamic mode, an ADM run creates one or more candidate queries for each cluster. Default value is true. | \n| created_at           | integer | Unix timestamp of when the application was created.                                                                                                                     | \n| latest_adm_version   | integer | The latest adm (v*) version of the application.                                                                                                                         | \n| enforcement_enabled  | boolean | Indicates if enforcement is enabled on the application                                                                                                                  | \n| enforced_version     | integer | The enforced p* version of the application.                                                                                                                             |"
+				}
+			],
+			"description": "The following folder contains the OpenAPI endpoints to manage Segmentation"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"//Generate a UTC Timestamp with the Tetration expected format that can be used in the request header",
+					"function pad(n) {",
+					"     return (n < 10) ? '0' + n : n;",
+					"}",
+					"",
+					"var now = new Date();",
+					"var month = now.getUTCMonth() + 1",
+					"var timestamp = now.getUTCFullYear()+'-'+pad(month)+'-'+pad(now.getUTCDate())+'T'+pad(now.getUTCHours())+':'+pad(now.getUTCMinutes())+':'+pad(now.getUTCSeconds())+'+0000';",
+					"",
+					"//Calculate the body checksum if it is a POST or PUT request",
+					"var checksum = '';",
+					"if (request.method == 'POST' || request.method == 'PUT') {",
+					"    checksum = CryptoJS.SHA256(request.data)",
+					"    checksum = CryptoJS.enc.Hex.stringify(checksum)",
+					"}",
+					"",
+					"//Calculate the Digest which is generated based on the timestamp, checksum, additional header parameters, and the secret key",
+					"var signer = request.method + '\\n/openapi/v1/' + request.url.split('/openapi/v1/')[1] + '\\n' + checksum + '\\napplication/json\\n' + timestamp + '\\n';",
+					"",
+					"var digestauth = CryptoJS.HmacSHA256(signer, pm.environment.get('API_SECRET'));",
+					"digestauth = CryptoJS.enc.Base64.stringify(digestauth);",
+					"",
+					"//Add headers to request",
+					"pm.request.headers.add( { key: 'Id', value: pm.environment.get('API_KEY') } );",
+					"pm.request.headers.add( { key: 'Authorization', value: digestauth } );",
+					"pm.request.headers.add( { key: 'Timestamp', value: timestamp } );",
+					"if (request.method == 'POST' || request.method == 'PUT') {",
+					"    pm.request.headers.add( { key: 'X-Tetration-Cksum', value: checksum } );",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

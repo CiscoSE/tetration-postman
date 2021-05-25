@@ -14,6 +14,11 @@ To set up Postman, you will need to create a Tetration Environment with the foll
 ![alt text](Environment.png "Environment Variable Screenshot")
  
 
+IMPORTING THE COLLECTION:
+
+`Tetration Lab (EXAMPLE).postman_environment.json` and `Cisco Secure Workload 3.5 - OpenAPI.postman_collection.json` can be imported to set up everything required to start making requests.  The sample Postman collection includes requests for the "Applications and Security Policies" related API calls.
+
+
 MANUAL WALKTHROUGH:
 
 >The pre-request script was recently updated to set the appropriate headers without having to pre-set them in the request.  This makes > usage much easier.  To leverage this method, use "pre-request.js" either as a pre-request script in an individual request, or as a pre-request script for an entire collection.  You can also apply the pre-request script to a Folder, so that it doesn't have to be individualy applied to multiple requests.
