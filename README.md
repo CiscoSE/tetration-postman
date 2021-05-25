@@ -13,17 +13,47 @@ To set up Postman, you will need to create a Tetration Environment with the foll
 
 ![alt text](Environment.png "Environment Variable Screenshot")
  
-MANUAL WALKTHROUGH:
+
+MANUAL WALKTHROUGH - CURRENT:
+
+>The pre-request script was recently updated to set the appropriate headers without having to pre-set them in the request.  This makes > usage much easier.  To leverage this method, use "pre-request.js" either as a pre-request script in an individual request, or as a pre-request script for an entire collection.
+
+Create a new request.  As an example, try an inventory search which is a Post request to the Tetration API and will use all both generated digest headers.  The URL for the request will be: 'https://{{URL}}/openapi/v1/inventory/search'.  The Method is 'POST'.  Click on the 'Authorization' tab.  Authorization should be set to 'No Auth' since we will be adding custom code for Authorization.
  
+Click on the 'Pre-request Script' tab and paste the Javascript `pre-request.js` in this repository.  This code will be the same for all requests to the Tetration API and generates the custom headers.
+ 
+Create a Body according to the Tetration API documentation, and send your request.  Below is an example JSON search for Windows hosts in the inventory:
+``` 
+{
+    "filter": {
+       "type": "and",
+       "filters": [
+          {
+             "type": "contains",
+             "field": "os",
+             "value": "Server2012"
+          }
+       ]
+    },
+    "scopeName": "Tetrationmicrosoft",
+    "limit": 100
+}
+```
+
+Hit send, and you should see a successful request to the Tetration API with a JSON formatted response.
+
+
+MANUAL WALKTHROUGH - LEGACY:
+
+>This uses the pre-request-legacy.js and requires a little additional work when setting up a request. 
+
 Create a new request.  As an example, try an inventory search which is a Post request to the Tetration API and will use all both generated digest headers.  The URL for the request will be: 'https://{{URL}}/openapi/v1/inventory/search'.  The Method is 'POST'.  Click on the 'Authorization' tab.  Authorization should be set to 'No Auth' since we will be adding custom code for Authorization.
 
-Click on the 'Headers' tab and add the following headers:
+Click on the 'Headers' tab and add the following headers (only required with the legacy script.):
 
 ![alt text](Headers.png "Headers Screenshot")
  
-Click on the 'Pre-request Script' tab and paste the Javascript in this repository.  This code will be the same for all requests to the Tetration API and generates the custom headers.
-late the body checksum if it is a POST or PUT request
-var checksum = '';
+Click on the 'Pre-request Script' tab and paste the `pre-request-legacy.js` in this repository.  This code will be the same for all requests to the Tetration API and generates the custom headers.
  
 Create a Body according to the Tetration API documentation, and send your request.  Below is an example JSON search for Windows hosts in the inventory:
 ``` 

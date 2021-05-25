@@ -17,34 +17,36 @@ or implied.
 __author__ = "Chris McHenry"
 __copyright__ = "Copyright (c) 2018 Cisco and/or its affiliates."
 __license__ = "Cisco Sample Code License, Version 1.0
+
+NOTE: THIS IS THE ORIGINAL 2018 SAMPLE PRE-REQUEST SCRIPT.  
+THIS HAS BEEN UPDATED FOR BETTER FUNCTIONALITY WITH POSTMAN COLLECTIONS, BUT IS STILL FUNCTIONAL IN ITS CURRENT FORM.
 */
 
 //Generate a UTC Timestamp with the Tetration expected format that can be used in the request header
 function pad(n) {
-     return (n < 10) ? '0' + n : n;
+    return (n < 10) ? '0' + n : n;
 }
 
 var now = new Date();
 var month = now.getUTCMonth() + 1
-var timestamp = now.getUTCFullYear()+'-'+pad(month)+'-'+pad(now.getUTCDate())+'T'+pad(now.getUTCHours())+':'+pad(now.getUTCMinutes())+':'+pad(now.getUTCSeconds())+'+0000';
+var timestamp = now.getUTCFullYear() + '-' + pad(month) + '-' + pad(now.getUTCDate()) + 'T' + pad(now.getUTCHours()) + ':' + pad(now.getUTCMinutes()) + ':' + pad(now.getUTCSeconds()) + '+0000';
+
+postman.setGlobalVariable("timestamp", timestamp);
 
 //Calculate the body checksum if it is a POST or PUT request
 var checksum = '';
+
 if (request.method == 'POST' || request.method == 'PUT') {
     checksum = CryptoJS.SHA256(request.data)
     checksum = CryptoJS.enc.Hex.stringify(checksum)
 }
 
+postman.setGlobalVariable("tetchecksum", checksum);
+
 //Calculate the Digest which is generated based on the timestamp, checksum, additional header parameters, and the secret key
 var signer = request.method + '\n/openapi/v1/' + request.url.split('/openapi/v1/')[1] + '\n' + checksum + '\napplication/json\n' + timestamp + '\n';
 
-var digestauth = CryptoJS.HmacSHA256(signer, pm.environment.get('API_SECRET'));
+var digestauth = CryptoJS.HmacSHA256(signer, environment["API_SECRET"]);
 digestauth = CryptoJS.enc.Base64.stringify(digestauth);
 
-//Add headers to request
-pm.request.headers.add( { key: 'Id', value: pm.environment.get('API_KEY') } );
-pm.request.headers.add( { key: 'Authorization', value: digestauth } );
-pm.request.headers.add( { key: 'Timestamp', value: timestamp } );
-if (request.method == 'POST' || request.method == 'PUT') {
-    pm.request.headers.add( { key: 'X-Tetration-Cksum', value: checksum } );
-}
+postman.setGlobalVariable("digestauth", digestauth);
